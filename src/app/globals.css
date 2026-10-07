@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Brand palette ─────────────────────────────── */
+  --color-ink: #0a0a0a;
+  --color-paper: #ffffff;
+  --color-hot: #ff2e93;
+  --color-hot-deep: #e6007e;
+  --color-grape: #7b2cff;
+  --color-grape-deep: #5b0fd4;
+  --color-volt: #1f3cff;
+  --color-volt-light: #4d6bff;
+  --color-tango: #ff6b00;
+  --color-cherry: #ff1e3c;
+  --color-cream: #f7f2ec;
+  --color-smoke: #f4f4f5;
+
+  /* ── Type scale (oversized editorial) ──────────── */
+  --text-display: 9rem;
+  --text-display--line-height: 0.86;
+  --text-display--letter-spacing: -0.04em;
+  --text-headline: 4.5rem;
+  --text-headline--line-height: 0.92;
+  --text-headline--letter-spacing: -0.03em;
+  --text-title: 2.25rem;
+  --text-title--line-height: 1.05;
+  --text-title--letter-spacing: -0.02em;
+
+  /* ── Motion ────────────────────────────────────── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-marquee-slow: marquee 60s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-dot: pulse-dot 1.6s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.4s linear infinite;
+  --animate-wiggle: wiggle 0.4s ease-in-out;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.75); }
+}
+
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
+}
+
+/* ── Base ──────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-hot);
+  color: #fff;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-smoke); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--color-hot), var(--color-grape));
+  border-radius: 999px;
+}
+
+/* ── Utilities ─────────────────────────────────── */
+@utility font-display {
+  font-family: var(--font-display), "Arial Black", sans-serif;
+  text-transform: uppercase;
+}
+
+@utility font-accent {
+  font-family: var(--font-accent), Georgia, serif;
+  font-style: italic;
+}
+
+@utility text-gradient-brand {
+  background: linear-gradient(92deg, var(--color-hot) 0%, var(--color-grape) 45%, var(--color-volt) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-gradient-warm {
+  background: linear-gradient(92deg, var(--color-tango) 0%, var(--color-cherry) 55%, var(--color-hot) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-brand-wash {
+  background:
+    radial-gradient(60% 60% at 10% 0%, rgb(255 46 147 / 0.14), transparent 60%),
+    radial-gradient(55% 55% at 90% 20%, rgb(31 60 255 / 0.12), transparent 60%),
+    radial-gradient(50% 50% at 50% 100%, rgb(123 44 255 / 0.12), transparent 60%);
+}
+
+@utility grain {
+  position: relative;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@utility hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* Outline button used across PDP / PLP */
+@utility btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 2rem;
+  border: 2px solid var(--color-ink);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: all 0.35s var(--ease-out-expo);
+  &:hover {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
