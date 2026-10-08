@@ -1,16 +1,26 @@
-// Centralized env access for Supabase keys.
-// Keeps the two keys surfaced in one place so the rest of the app imports
-// from here rather than reaching into process.env directly.
+// Centralized Supabase env access.
 //
-// Convention:
-//  - NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY  -> browser-safe, exposed to client
-//  - SUPABASE_SECRET_KEY                 -> server-only, never leaves the server
+// Keys in play:
+//  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY  → browser-safe public key
+//  NEXT_PUBLIC_SUPABASE_URL              → Supabase project URL (public)
+//  SUPABASE_SECRET_KEY                   → server-only service key (never exposed)
+//
+// All three must be present for the integration to work:
+//   - URL + anon key for the browser client
+//   - URL + service key for server/route-handler clients
 
-export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-export const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-export const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SECRET_KEY;
+const NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY;
+const NEXT_PUBLIC_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
-// Lightweight runtime guard used in dev/test to fail fast when keys are missing.
+// Public (browser-safe) surface
+export const SUPABASE_ANON_KEY = NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+export const SUPABASE_URL = NEXT_PUBLIC_SUPABASE_URL;
+
+// Server-only surface
+export const SUPABASE_SERVICE_KEY = SUPABASE_SECRET_KEY;
+
+// Fail fast in dev when any required key is missing.
 export function assertSupabaseEnv() {
   if (!SUPABASE_URL) {
     throw new Error("NEXT_PUBLIC_SUPABASE_URL is not defined");

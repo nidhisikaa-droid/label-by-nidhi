@@ -57,5 +57,8 @@ export function useSupabaseBrowserClient() {
 // integration point for syncing wishlist hearts with Supabase later.
 export function useSyncWishlist(id: string) {
   const { isWishlisted } = useStore();
+  // Sync surface: mirrors local store state today.
+  // When wishlist DB persistence is enabled, this hook will call
+  // @/lib/supabase/server and keep hearts in sync with Supabase.
   return isWishlisted(id);
 }
