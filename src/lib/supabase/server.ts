@@ -6,7 +6,7 @@ import { SUPABASE_URL, SUPABASE_SERVICE_KEY } from "./env";
 export function getSupabaseServerClient() {
   if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
     throw new Error(
-      "Missing Supabase env vars server-side: NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SECRET_KEY must be set."
+      "Missing Supabase env vars server-side: SUPABASE_URL and SUPABASE_SECRET_KEY must be set."
     );
   }
 

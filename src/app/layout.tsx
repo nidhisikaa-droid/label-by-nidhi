@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import CartDrawer from "@/components/CartDrawer";
+import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/env";
 
 const display = Anton({
   subsets: ["latin"],
@@ -55,6 +56,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${display.variable} ${body.variable} ${accent.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{window.__SUPABASE_URL=${JSON.stringify(SUPABASE_URL)};window.__SUPABASE_ANON_KEY=${JSON.stringify(SUPABASE_ANON_KEY)};}catch(e){}`,
+          }}
+        />
         <StoreProvider>
           <ScrollToTop />
           <Navbar />
