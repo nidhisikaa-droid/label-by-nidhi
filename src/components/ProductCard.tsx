@@ -6,6 +6,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Product } from "@/data/products";
 import { discount, formatPrice } from "@/data/products";
+import { useSyncWishlist } from "@/lib/supabase/client";
 import { useStore } from "@/context/store";
 import Rating from "./Rating";
 
@@ -27,6 +28,8 @@ export default function ProductCard({
   const [hovered, setHovered] = useState(false);
   const wished = isWishlisted(product.id);
   const off = discount(product);
+  const synced = useSyncWishlist(product.id);
+  void synced;
 
   return (
     <motion.article
@@ -114,6 +117,7 @@ export default function ProductCard({
 
       {/* Wishlist heart */}
       <button
+        data-sync-wishlist
         onClick={() => toggleWishlist(product.id)}
         aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
         className={`absolute top-3 right-3 z-10 w-9 h-9 rounded-full grid place-items-center transition-all duration-300 ${

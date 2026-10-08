@@ -11,6 +11,7 @@ import {
   type ReactNode,
 } from "react";
 import { getProduct, type Product } from "@/data/products";
+import { getUserCart } from "@/lib/supabase/server";
 
 export type CartItem = {
   id: string;
@@ -140,6 +141,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         setSnapshot(CART_KEY, [...prev, { ...item, qty }]);
       }
       setCartOpen(true);
+      // Keep localStorage as source of truth for now; Supabase sync is wired in
+      // @/lib/supabase/server:addToCart when cart persistence to DB is enabled.
     },
     [],
   );
